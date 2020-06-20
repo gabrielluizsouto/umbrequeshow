@@ -1,0 +1,29 @@
+.iframe-container{
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; 
+    height: 100%;
+}
+.iframe-container iframe{
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.video-container {
+    height: 100% !important;
+}
+
+.avaliation-container {
+    height: 200px;
+}
+
+.botao-avancar {
+    height: 100%;
+}
+
+.botao-voltar {
+    height: 100%;
+}

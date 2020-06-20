@@ -1,0 +1,25 @@
+{
+  "name": "umbrequeshow",
+  "version": "1.0.0",
+  "description": "A website where people can watch and avaliate Bateria's Breques.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabrielluizsouto/umbrequeshow.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gabrielluizsouto/umbrequeshow/issues"
+  },
+  "homepage": "https://github.com/gabrielluizsouto/umbrequeshow#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.9.19",
+    "morgan": "^1.10.0"
+  }
+}
