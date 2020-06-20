@@ -85,19 +85,28 @@ exports.breques_get_random = (req, res, next) => {
 }
 
 exports.breques_add = async (req, res, next) => {
-    console.log('add');
-    
+    //sanitizing url
+    const link = req.body.youtubeUrl.split('?')[1];
+    const linkParams = new URLSearchParams(link);
+    const videoId = linkParams.get('v');
+    console.log(link);
+    console.log(linkParams);
+    console.log(videoId);
+
+
     try{
         //creating breque and saving
         const breque = new Breque({
             _id: new mongoose.Types.ObjectId(), //string
             title: req.body.title,
-            youtubeUrl: req.body.youtubeUrl,
+            youtubeUrl: videoId,
             startTime: req.body.startTime,
             endTime: req.body.endTime,
             user: req.body.userId,
             categories: req.body.categories
         });
+        console.log(breque);
+
         breque.save();
 
         return res.status(200).json({

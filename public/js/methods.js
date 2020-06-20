@@ -23,7 +23,8 @@ function getPlaylistInBrowser(){
     if(!data){
         data = getShuffledPlaylist();
         data = JSON.parse(data);
-        data = data.shuffledItems;
+		data = data.shuffledItems;
+		
         saveInSessionStorage(key, data);
     }
 
@@ -54,8 +55,16 @@ function getVideoRequest(videoId){
 
 
 function loadVideo(videoId){
-    var videoData = getVideoRequest(videoId);
-    videoData = JSON.parse(videoData).breque[0];
+	if(!videoId){
+		window.sessionStorage.removeItem('shuffledPlaylist');
+		saveInSessionStorage('playlistPointer', 0);
+		window.location.reload();
+		return;
+	}
+	
+	var videoData = getVideoRequest(videoId);
+	videoData = JSON.parse(videoData).breque[0];
+	
 
     //inserting video in page
     let video = window.document.createElement('iframe');
@@ -85,71 +94,87 @@ function updatePlaylist(playlist) {
 	saveInSessionStorage(key, playlist);
 }
 
-function nextVideo() {
+function getPlaylistPointer(){
+	const key = 'playlistPointer';
+	var data = sessionStorage.getItem(key);
+
+	if (!data) data = 0;
+
+	return data;
+}
+
+function updatePlaylistPointer(action){
+	const key = 'playlistPointer';
+	var pointerValue = Number(getPlaylistPointer());
+	var playlist = JSON.parse('['+getPlaylistInBrowser()+']');
+
+	if (action == "previous"){
+		if(0 < pointerValue){
+			pointerValue = pointerValue - 1;
+		} else {
+			window.sessionStorage.removeItem('shuffledPlaylist');
+		}
+
+	} else {
+		if(playlist.length > pointerValue){
+			pointerValue = pointerValue + 1;
+		} else {
+			pointerValue = 0;
+			//reset playlist
+			window.sessionStorage.removeItem('shuffledPlaylist');
+		}
+	}
+	
+	saveInSessionStorage(key, pointerValue);
 	location.reload();
 }
 
-/*\
-|*|
-|*|  :: cookies.js ::
-|*|
-|*|  A complete cookies reader/writer framework with full unicode support.
-|*|
-|*|  Revision #1 - September 4, 2014
-|*|
-|*|  https://developer.mozilla.org/en-US/docs/Web/API/document.cookie
-|*|  https://developer.mozilla.org/User:fusionchess
-|*|  https://github.com/madmurphy/cookies.js
-|*|
-|*|  This framework is released under the GNU Public License, version 3 or later.
-|*|  http://www.gnu.org/licenses/gpl-3.0-standalone.html
-|*|
-|*|  Syntaxes:
-|*|
-|*|  * docCookies.setItem(name, value[, end[, path[, domain[, secure]]]])
-|*|  * docCookies.getItem(name)
-|*|  * docCookies.removeItem(name[, path[, domain]])
-|*|  * docCookies.hasItem(name)
-|*|  * docCookies.keys()
-|*|
-\*/
+function sendVideo() {
+	var instance = M.Modal.init(document.querySelector('#modal-send-video'));  
+	instance.options.onCloseEnd = function(){
 
-var docCookies = {
-    getItem: function (sKey) {
-      if (!sKey) { return null; }
-      return decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null;
-    },
-    setItem: function (sKey, sValue, vEnd, sPath, sDomain, bSecure) {
-      if (!sKey || /^(?:expires|max\-age|path|domain|secure)$/i.test(sKey)) { return false; }
-      var sExpires = "";
-      if (vEnd) {
-        switch (vEnd.constructor) {
-          case Number:
-            sExpires = vEnd === Infinity ? "; expires=Fri, 31 Dec 9999 23:59:59 GMT" : "; max-age=" + vEnd;
-            break;
-          case String:
-            sExpires = "; expires=" + vEnd;
-            break;
-          case Date:
-            sExpires = "; expires=" + vEnd.toUTCString();
-            break;
-        }
-      }
-      document.cookie = encodeURIComponent(sKey) + "=" + encodeURIComponent(sValue) + sExpires + (sDomain ? "; domain=" + sDomain : "") + (sPath ? "; path=" + sPath : "") + (bSecure ? "; secure" : "");
-      return true;
-    },
-    removeItem: function (sKey, sPath, sDomain) {
-      if (!this.hasItem(sKey)) { return false; }
-      document.cookie = encodeURIComponent(sKey) + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT" + (sDomain ? "; domain=" + sDomain : "") + (sPath ? "; path=" + sPath : "");
-      return true;
-    },
-    hasItem: function (sKey) {
-      if (!sKey) { return false; }
-      return (new RegExp("(?:^|;\\s*)" + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=")).test(document.cookie);
-    },
-    keys: function () {
-      var aKeys = document.cookie.replace(/((?:^|\s*;)[^\=]+)(?=;|$)|^\s*|\s*(?:\=[^;]*)?(?:\1|$)/g, "").split(/\s*(?:\=[^;]*)?;\s*/);
-      for (var nLen = aKeys.length, nIdx = 0; nIdx < nLen; nIdx++) { aKeys[nIdx] = decodeURIComponent(aKeys[nIdx]); }
-      return aKeys;
-    }
-  };
+        //window.location.reload();
+    };
+    instance.open();
+
+}
+
+function createNewBreque(){
+	var response;
+	
+	let breque = {
+		"youtubeUrl": "",
+		"title": "",
+		"categories": [],
+		"startTime": "",
+		"endTime": ""
+	}
+
+	breque.title = document.querySelector("#video-title").value;
+	breque.youtubeUrl = document.querySelector("#youtubeUrl").value;
+	breque.categories = document.querySelector("#categories").value.split(',');
+	breque.startTime = document.querySelector("#startTime").value;
+	breque.endTime = document.querySelector("#startTime").value;
+
+
+    var xhr = new window.XMLHttpRequest();
+	xhr.open('POST', '/api/breques/', false);
+	xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    xhr.onreadystatechange = function () {
+        if(xhr.readyState === 4 && xhr.status === 200) {    //readystate === 4 (done)
+			response = xhr.responseText;
+			
+			var instance = M.Modal.init(document.querySelector('#modal-send-video'));
+			instance.destroy;
+			alert("Obrigado por enviar sua contribuição");
+
+        } 
+        else if(xhr.readyState === 4 && xhr.status === 401) {    //readystate === 4 (done){
+            console.log('failed to create breque')
+        } 
+    };
+	xhr.send(JSON.stringify(breque));
+	console.log(breque);
+
+	return response;
+}
