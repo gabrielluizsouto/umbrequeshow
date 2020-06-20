@@ -4,7 +4,7 @@ const morgan = require('morgan');   //para mostrar logs
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-//const productRoutes = require('./api/routes/products');
+const brequeRoutes = require('./src/routes/breques');
 
 mongoose.connect(
     'mongodb+srv://gabrielluizferraz:' + 
@@ -34,9 +34,8 @@ app.use((req, res, next) => {
     next();
 })
 
-//API Routes with should handle requests
-//app.use('/api/products', productRoutes);
-//app.use('/api/orders', orderRoutes);
+//API Routes 
+app.use('/api/breques', brequeRoutes);
 
 //Webapp routes
 app.use('/public', express.static(__dirname + '/public'));  //serving all files in /public staticaly

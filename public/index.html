@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Um Breque Show</title>
     <link rel="stylesheet" type="text/css" href="public/css/style.css">
-    <!--<script type="text/javascript" src="public/js/methods.js"></script>-->
-    
+    <script type="text/javascript" src="public/js/methods.js"></script>
+
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
@@ -15,7 +15,6 @@
 
 </head>
 <body>
-
     <header>
         <menu></menu>
         <h1>Um Breque Show</h1>
@@ -27,12 +26,19 @@
                 <a class="botao-voltar col m2 hide-on-small-only waves-effect waves-light btn-large"><i class="material-icons large">arrow_back</i></a>
                 <div class="col s12 m8 video-content">
                     <div class="iframe-container">
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/NQGpTibBpfI?autoplay=1&fs=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>
+                        <script>
+                                var playlist = getPlaylistInBrowser();
+                                playlist = JSON.parse('['+playlist+']');
+                                const playingNow = playlist.shift();
+                                loadVideo(playingNow);
+                                updatePlaylist(playlist);
+                        </script>
+                        
                     </div>
                 </div>
-                <a class="botao-avancar col m2 hide-on-small-only center waves-effect waves-light btn-large"><i class="material-icons large">arrow_forward</i></a>
-                <a class="botao-voltar col s6 hide-on-med-and-up center waves-effect waves-light btn-large"><i class="material-icons medium">arrow_back</i></a>
-                <a class="botao-avancar col s6 hide-on-med-and-up center waves-effect waves-light btn-large"><i class="material-icons medium">arrow_forward</i></a>
+                <a class="botao-avancar col m2 hide-on-small-only center waves-effect waves-light btn-large" onclick="nextVideo()"><i class="material-icons large">arrow_forward</i></a>
+                <a class="botao-voltar col s6 hide-on-med-and-up center waves-effect waves-light btn-large" ><i class="material-icons medium">arrow_back</i></a>
+                <a class="botao-avancar col s6 hide-on-med-and-up center waves-effect waves-light btn-large" onclick="nextVideo()"><i class="material-icons medium">arrow_forward</i></a>
             </div>
 
             <div class="col s12 avaliation-container red">
@@ -42,6 +48,7 @@
 
     </main>
     <footer></footer>
-    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 </html>

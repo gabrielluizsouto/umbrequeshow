@@ -7,6 +7,11 @@ header {
     margin-bottom: 20px;
 }
 
+h1 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .iframe-container{
     position: relative;
     width: 100%;
@@ -27,13 +32,22 @@ header {
     margin-bottom: 20px;
 }
 
+@media (min-width: 601px) {
+    .video-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
 .avaliation-container {
     height: 200px;
 }
 
 .botao-avancar {
-
+    background-color: #99DFE0;
 }
 
 .botao-voltar {
+    background-color: #99DFE0;
 }
