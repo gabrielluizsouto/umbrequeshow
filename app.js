@@ -44,6 +44,10 @@ app.get('/', function(req, res) {
     res.status(200).sendFile(__dirname + '/public/index.html');
 });
 
+app.get('/favicon', function(req, res) {
+    console.log('GET in ' + __dirname + '/public/index.html');
+    res.status(200).sendFile(__dirname + '/public/favicon.ico');
+});
 
 //error handling
 app.use((req, res, next) => {

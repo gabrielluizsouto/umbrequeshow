@@ -160,7 +160,7 @@ function createNewBreque(){
 	breque.youtubeUrl = document.querySelector("#youtubeUrl").value;
 	breque.categories = document.querySelector("#categories").value.split(',');
 	breque.startTime = document.querySelector("#startTime").value;
-	breque.endTime = document.querySelector("#startTime").value;
+	breque.endTime = document.querySelector("#endTime").value;
 
 	//spaces sanitizing
 	breque.categories = breque.categories.map(item => {
