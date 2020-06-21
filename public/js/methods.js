@@ -86,7 +86,9 @@ function loadVideo(videoId){
 	}
 
     var div = document.querySelector('.iframe-container');
-    div.appendChild(video);
+	div.appendChild(video);
+	
+	window.videoData = videoData;
 }
 
 function updatePlaylist(playlist) {
