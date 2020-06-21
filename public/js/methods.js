@@ -143,7 +143,6 @@ function sendVideo() {
         //window.location.reload();
     };
     instance.open();
-
 }
 
 function createNewBreque(){
@@ -216,6 +215,7 @@ function createCategoriesList(categoriesList) {
 		categoriesList.forEach(elem => {
 			var name = elem.trim();
 			let aDiv = window.document.createElement('a');
+			aDiv.setAttribute('href', '#');
 			aDiv.textContent =  '#'+name;
 			aDiv.setAttribute('onClick', 'createNewPlaylist("'+name+'")');
 			aDiv.setAttribute('class', 'categorie-link black');
@@ -283,5 +283,43 @@ function fillNowPlayingInfo() {
 	let videos = document.querySelector('.now-playing-category-videos-length');
 
 	name.textContent = '#' + window.sessionStorage.playlistCategory;
-	videos.textContent =  Number(window.sessionStorage.playlistPointer)+1 + '/' + JSON.parse('['+window.sessionStorage.shuffledPlaylist+']').length;
+	videos.textContent =  ((Number(window.sessionStorage.playlistPointer)+1) || 1 ) + '/' + JSON.parse('['+window.sessionStorage.shuffledPlaylist+']').length;
+}
+
+function denounceVideo(brequeId) {
+
+	var xhr = new window.XMLHttpRequest();
+	xhr.open('PATCH', '/api/breques/denounce/'+brequeId, false);
+	xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+	xhr.onreadystatechange = function () {
+		if(xhr.readyState === 4 && xhr.status === 200) {    //readystate === 4 (done)
+			response = xhr.responseText;
+
+			var instance = M.Modal.init(document.querySelector('#modal-denounce')); 
+			instance.open();
+		}
+		else if(xhr.readyState === 4 && xhr.status === 401) {    //readystate === 4 (done){
+			console.log('failed to denounce');
+		} 
+	};
+	xhr.send();	
+}
+
+function likeVideo(brequeId) {
+
+	var xhr = new window.XMLHttpRequest();
+	xhr.open('PATCH', '/api/breques/like/'+brequeId, false);
+	xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+	xhr.onreadystatechange = function () {
+		if(xhr.readyState === 4 && xhr.status === 200) {    //readystate === 4 (done)
+			response = xhr.responseText;
+
+			var instance = M.Modal.init(document.querySelector('#modal-like')); 
+			instance.open();
+		}
+		else if(xhr.readyState === 4 && xhr.status === 401) {    //readystate === 4 (done){
+			console.log('failed to denounce');
+		} 
+	};
+	xhr.send();	
 }

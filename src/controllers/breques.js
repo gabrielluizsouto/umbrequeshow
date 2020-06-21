@@ -165,3 +165,35 @@ exports.breques_get_category = (req, res, next) => {
         });
     })
 }
+
+exports.breques_denounce = (req, res, next) => {
+    Breque.findOneAndUpdate({brequeId: req.params.brequeId}, { $inc:{denounce:1} })
+    .exec()
+    .then(breque => {
+        res.status(200).json({
+            message: "denounce completed",
+            breque: breque
+        });
+    })
+    .catch(err => {
+        res.status(500).json({
+            error: err
+        });
+    })
+}
+
+exports.breques_like = (req, res, next) => {
+    Breque.findOneAndUpdate({brequeId: req.params.brequeId}, { $inc:{like:1} })
+    .exec()
+    .then(breque => {
+        res.status(200).json({
+            message: "like completed",
+            breque: breque
+        });
+    })
+    .catch(err => {
+        res.status(500).json({
+            error: err
+        });
+    })
+}

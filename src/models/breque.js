@@ -11,7 +11,9 @@ const brequeSchema = mongoose.Schema({
     endTime: { type: String },
     categories: [String],
     user: mongoose.Schema.Types.ObjectId,
-    visible: {type: Boolean, default: false}
+    visible: {type: Boolean, default: false},
+    denounce: {type: Number, default: 0},
+    like: {type: Number, default: 0}
 });
 
 brequeSchema.plugin(AutoIncrement, {inc_field:'brequeId'});

@@ -21,6 +21,10 @@ router.get('/categories/', BrequesController.breques_get_categories);
 
 router.post('/', BrequesController.breques_add);
 
+router.patch('/denounce/:brequeId', BrequesController.breques_denounce);
+router.patch('/like/:brequeId', BrequesController.breques_like);
+
+
 
 
 //router.delete('/delete-all', checkAuthAdmin, BrequesController.breques_delete_all);

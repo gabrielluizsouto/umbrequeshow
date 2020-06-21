@@ -152,13 +152,13 @@ a {
 }
 
 .now-playing-container {
-    display: flex;
-    align-self: center !important;
-    align-items: center !important;
+    display: flex !important;
+    justify-content: center;
     margin-left: 10px !important;
 }
 
 .now-playing-container  > * {
+    align-items: center !important;
     margin: 0px !important;
     margin-top: 0px !important;
     margin-bottom: 0px !important;
