@@ -15,7 +15,13 @@ router.get('/random', BrequesController.breques_get_random);
 
 router.get('/id/:brequeId', BrequesController.breques_get_one);
 
+router.get('/specificcategory/:category', BrequesController.breques_get_category);
+
+router.get('/categories/', BrequesController.breques_get_categories);
+
 router.post('/', BrequesController.breques_add);
+
+
 
 //router.delete('/delete-all', checkAuthAdmin, BrequesController.breques_delete_all);
 

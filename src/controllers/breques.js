@@ -84,14 +84,11 @@ exports.breques_get_random = (req, res, next) => {
     });
 }
 
-exports.breques_add = async (req, res, next) => {
+exports.breques_add = (req, res, next) => {
     //sanitizing url
     const link = req.body.youtubeUrl.split('?')[1];
     const linkParams = new URLSearchParams(link);
     const videoId = linkParams.get('v');
-    console.log(link);
-    console.log(linkParams);
-    console.log(videoId);
 
 
     try{
@@ -120,4 +117,51 @@ exports.breques_add = async (req, res, next) => {
             breque: breque
         });
     }
+}
+
+exports.breques_get_categories = (req, res, next) => {
+
+    Breque.find()
+    .exec()
+    .then(breques => {
+        var brequesCategories = breques.map(item => {
+            return item.categories;
+        });
+
+        var merged = [].concat.apply([], brequesCategories);
+        merged = merged.map(item => {
+            return item;
+        });
+
+        var uniqueBreques = merged.filter(function(elem, index, self) {
+            return index === self.indexOf(elem);
+        })
+
+        res.status(200).json({
+            count: uniqueBreques.length,
+            categories: uniqueBreques
+        });
+    })
+    .catch(err => {
+        res.status(500).json({
+            error: err
+        });
+    })
+}
+
+exports.breques_get_category = (req, res, next) => {
+
+    Breque.find({categories: req.params.category})
+    .exec()
+    .then(breques => {
+        res.status(200).json({
+            count: breques.length,
+            breques: breques
+        });
+    })
+    .catch(err => {
+        res.status(500).json({
+            error: err
+        });
+    })
 }

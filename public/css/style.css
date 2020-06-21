@@ -7,6 +7,11 @@ header {
     margin-bottom: 20px;
 }
 
+h5 {
+    margin-top: 3px !important;
+    margin-bottom: 0px !important;
+}
+
 h3 {
     margin-top: 10px !important;
     margin-bottom: 10px !important;
@@ -15,8 +20,6 @@ h3 {
 a {
     margin-right: 5px;
 }
-
-
 
 .iframe-container{
     position: relative;
@@ -76,6 +79,7 @@ a {
 
 .share-container, .info-container{
     padding: 10px !important;
+    padding-bottom: 5px !important;
 }
 
 .nav-bar{
@@ -125,4 +129,50 @@ a {
     padding: 0; 
     margin: 0; 
     box-sizing: border-box; 
+}
+
+
+.categories-container {
+    padding-bottom: 15px;
+    margin-bottom: 0px !important;
+}
+
+.video-content-row {
+    margin-bottom: 5px !important;
+}
+
+.categories-list-row {
+    margin: 0px !important;
+}
+
+.categories-list {
+    text-align: justify;
+    text-justify: inter-word;
+    word-break: break-word;
+}
+
+.now-playing-container {
+    display: flex;
+    align-self: center !important;
+    align-items: center !important;
+    margin-left: 10px !important;
+}
+
+.now-playing-container  > * {
+    margin: 0px !important;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+    padding:0px !important;
+}
+
+
+.now-playing-category-name {
+    color: red;
+    margin-right: 10px !important;
+    margin-left: 5px !important;
+}
+
+.now-playing-category-videos-length {
+    color: red;
+    margin-left: 5px !important;
 }
